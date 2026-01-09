@@ -81,3 +81,6 @@ tmp/
 
 # Old interview guide (keep only INTERVIEW_SIMPLE.md)
 INTERVIEW_GUIDE.md
+
+# Interview guides (local only)
+INTERVIEW_SIMPLE.md
