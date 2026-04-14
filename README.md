@@ -412,17 +412,12 @@ This project is open source and available under the MIT License.
 ## 👨‍💻 Author
 
 **Your Name**
-- GitHub: [your-github](https://github.com)
-- LinkedIn: [your-linkedin](https://linkedin.com)
-- Email: your.email@example.com
+- GitHub: https://github.com/dheeraj938
+- LinkedIn:https://www.linkedin.com/in/dheeraj-kumar-singh-58537725a/
+- Email: Dheeraj202107@gmail.com
 
 ---
 
-## 📞 Support
-
-For support, email your.email@example.com or open an issue in the repository.
-
----
 
 ## 🙏 Acknowledgments
 
@@ -447,4 +442,4 @@ For support, email your.email@example.com or open an issue in the repository.
 
 **Last Updated:** January 9, 2026
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by [Dheeraj]
