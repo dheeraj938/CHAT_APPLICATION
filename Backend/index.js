@@ -15,11 +15,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 const corsOption = {
-    origin: "http://localhost:5173",
-    credentials: true
+    origin: (origin, callback) => {
+        // Allow any localhost origin for development
+        if (!origin || origin.startsWith('http://localhost')) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 };
 app.use(cors(corsOption));
-app.use(cors(corsOption));
+console.log("CORS enabled for all localhost ports (development mode)");
 
 // Debug middleware
 app.use((req, res, next) => {
@@ -31,13 +40,16 @@ app.use((req, res, next) => {
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/message", messageRoute);
 
+//code for deployment
+
+
 // Debug 404
 app.use((req, res) => {
     console.log(`404 - Route not found: ${req.method} ${req.path}`);
     res.status(404).json({ message: "Route not found" });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     connectDB();
     console.log(`server listen at port ${PORT}`);  
 })

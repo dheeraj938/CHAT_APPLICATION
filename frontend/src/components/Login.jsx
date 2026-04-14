@@ -11,11 +11,13 @@ import { setAuthUser } from "../redux/userSlice";
      username: "",
      password: "",
    });
+   const [loading, setLoading] = useState(false);
    const dispatch = useDispatch();
    const navigate = useNavigate();
 
   const onSubmitHandler =async (e) => {
     e.preventDefault()
+    setLoading(true);
      try {
     
      const res = await axios.post("http://localhost:8080/api/v1/user/login", user, {
@@ -26,23 +28,27 @@ import { setAuthUser } from "../redux/userSlice";
        withCredentials: true
      });
      
-       navigate("/");
        console.log(res.data);
        dispatch(setAuthUser(res.data));
+       toast.success("Login successful!");
+       
+       setUser({
+         username: "",
+         password: "",
+       });
+
+       navigate("/");
       
       
 
      } catch (error) {
-       toast.error(error.response.data.message);
-     console.log(error);
+       const message = error.response?.data?.message || error.message || 'Login failed. Please try again.';
+       toast.error(message);
+       console.log(error);
     
-   }
-   
-
-    setUser({
-      username: "",
-      password: "",
-    })
+     } finally {
+       setLoading(false);
+     }
   }
 
   return (
@@ -66,9 +72,10 @@ import { setAuthUser } from "../redux/userSlice";
             <input
               value={user.username}
               onChange={(e) => setUser({ ...user, username: e.target.value })}
+              disabled={loading}
               type="text"
               placeholder="Enter your username"
-              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl bg-slate-700/50 border border-slate-600 text-white placeholder-slate-400 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl bg-slate-700/50 border border-slate-600 text-white placeholder-slate-400 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition disabled:opacity-50"
             />
           </div>
 
@@ -79,17 +86,19 @@ import { setAuthUser } from "../redux/userSlice";
             <input
               value={user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
+              disabled={loading}
               type="password"
               placeholder="Enter your password"
-              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl bg-slate-700/50 border border-slate-600 text-white placeholder-slate-400 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl bg-slate-700/50 border border-slate-600 text-white placeholder-slate-400 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition disabled:opacity-50"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-2.5 sm:py-3 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold text-sm sm:text-base rounded-lg sm:rounded-xl transition shadow-lg hover:shadow-indigo-600/50 mt-4 sm:mt-6"
+            disabled={loading}
+            className="w-full py-2.5 sm:py-3 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold text-sm sm:text-base rounded-lg sm:rounded-xl transition shadow-lg hover:shadow-indigo-600/50 mt-4 sm:mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
 
         </form>

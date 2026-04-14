@@ -31,7 +31,8 @@ export const sendMessage = async (req, res) => {
         const newMessage = await Message.create({
             senderId,
             receiverId,
-            message
+            message,
+            conversationId: gotConversation._id
         });
         
         if (newMessage) {

@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken"
 
 export const register = async (req, res) => {
     try {
+        console.log("Register endpoint hit with body:", req.body);
         const { fullName, username, password, confirmPassword, gender } = req.body;
         if (!fullName || !username || !password || !confirmPassword || !gender) {
             return res.status(400).json({ message: "All fields are required" });
@@ -34,8 +35,9 @@ export const register = async (req, res) => {
         })
         
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: "Server error", error });
+        console.error("Register Error:", error.message);
+        console.error("Error Stack:", error.stack);
+        return res.status(500).json({ message: "Server error", error: error.message });
     }
 };
 export const login = async (req, res) => {
@@ -70,7 +72,8 @@ export const login = async (req, res) => {
             _id: user._id,
             username: user.username,
             fullName: user.fullName,
-            ProfilePhoto: user.ProfilePhoto
+            ProfilePhoto: user.ProfilePhoto,
+            success: true
         });
         
     } catch (error) {
